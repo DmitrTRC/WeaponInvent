@@ -1,13 +1,18 @@
+import environ
+import os
 from pathlib import Path
 from datetime import timedelta
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+root = environ.Path(__file__) - 2
+env = environ.Env()
 
-SECRET_KEY = 'django-insecure-5e1#wbzg1a85n29rug0pk0t4k78cmhoj)h^1zbry_o=olnyakc'
+environ.Env.read_env(env.str(root(), '.env'))
 
-DEBUG = True
+BASE_DIR = root()
 
-ALLOWED_HOSTS = []
+SECRET_KEY = env.str('SECRET_KEY')
+DEBUG = env.bool('DEBUG', default=False)
+ALLOWED_HOSTS = env.str('ALLOWED_HOSTS', default='').split(' ')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -57,8 +62,31 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
+}
+
+###########################
+# DJANGO REST FRAMEWORK
+###########################
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',),
+
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ],
+
+    'DEFAULT_PARSER_CLASSES': [
+        'rest_framework.parsers.JSONParser',
+        'rest_framework.parsers.FormParser',
+        'rest_framework.parsers.MultiPartParser',
+        'rest_framework.parsers.FileUploadParser',
+    ],
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    # 'DEFAULT_PAGINATION_CLASS': 'common.pagination.BasePagination',
 }
 
 AUTH_PASSWORD_VALIDATORS = [
