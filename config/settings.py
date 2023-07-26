@@ -28,12 +28,18 @@ INSTALLED_APPS += [
     'rest_framework',
     'django_filters',
     'corsheaders',
+
 ]
 
 INSTALLED_APPS += [
     'api',
     'common',
     'inventory',
+]
+
+# Must be last APP!
+INSTALLED_APPS += [
+    'drf_spectacular',
 ]
 
 MIDDLEWARE = [
@@ -53,6 +59,26 @@ CORS_ALLOW_HEADERS = ['*']
 CSRF_COOKIE_SECURE = False
 
 ROOT_URLCONF = 'config.urls'
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Inventory Project API',
+    'DESCRIPTION': 'API for inventory database',
+    'VERSION': '1.0.0',
+
+    'SERVE_PERMISSIONS': [
+        'rest_framework.permissions.IsAuthenticated'],
+
+    'SERVE_AUTHENTICATION': [
+        'rest_framework.authentication.BasicAuthentication'],
+
+    'SWAGGER_UI_SETTINGS': {
+        'DeepLinking': True,
+        'DisplayOperationId': True,
+    },
+
+    'COMPONENT_SPLIT_REQUEST': True,
+    'SORT_OPERATIONS': False,
+}
 
 TEMPLATES = [
     {
@@ -126,6 +152,38 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+DJOSER = {
+    'PASSWORD_RESET_CONFIRM_URL': '#/password/reset/confirm/{uid}/{token}',
+    'USERNAME_RESET_CONFIRM_URL': '#/username/reset/confirm/{uid}/{token}',
+    'ACTIVATION_URL': '#/activate/{uid}/{token}',
+    'SEND_ACTIVATION_EMAIL': False,
+    'SERIALIZERS': {},
+}
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': SECRET_KEY,
+    'VERIFYING_KEY': None,
+    'AUDIENCE': None,
+    'ISSUER': None,
+
+    'AUTH_HEADER_TYPES': ('Bearer',),
+    'USER_ID_FIELD': 'id',
+    'USER_ID_CLAIM': 'user_id',
+
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+    'TOKEN_TYPE_CLAIM': 'token_type',
+
+    'JTI_CLAIM': 'jti',
+
+    'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
+    'SLIDING_TOKEN_LIFETIME': timedelta(minutes=1),
+    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=7),
+}
 
 LANGUAGE_CODE = 'en-us'
 
