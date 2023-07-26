@@ -5,7 +5,7 @@ app_name = 'api'
 
 urlpatterns = [
 
-    path('auth/', include('djoser.urls.base')),
+    # path('auth/', include('djoser.urls.base')),
     path('auth/', include('djoser.urls.jwt')),
 
 ]

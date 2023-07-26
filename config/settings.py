@@ -60,26 +60,6 @@ CSRF_COOKIE_SECURE = False
 
 ROOT_URLCONF = 'config.urls'
 
-SPECTACULAR_SETTINGS = {
-    'TITLE': 'Inventory Project API',
-    'DESCRIPTION': 'API for inventory database',
-    'VERSION': '1.0.0',
-
-    'SERVE_PERMISSIONS': [
-        'rest_framework.permissions.IsAuthenticated'],
-
-    'SERVE_AUTHENTICATION': [
-        'rest_framework.authentication.BasicAuthentication'],
-
-    'SWAGGER_UI_SETTINGS': {
-        'DeepLinking': True,
-        'DisplayOperationId': True,
-    },
-
-    'COMPONENT_SPLIT_REQUEST': True,
-    'SORT_OPERATIONS': False,
-}
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -200,3 +180,39 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 MEDIA_TEST_ROOT = os.path.join(BASE_DIR, 'media/test/')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+######################
+# DRF SPECTACULAR
+######################
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Inventory Helper',
+    'DESCRIPTION': 'Project Inventory DB Helper',
+    'VERSION': '1.0.0',
+
+    'SERVE_PERMISSIONS': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+
+    'SERVE_AUTHENTICATION': [
+        'rest_framework.authentication.BasicAuthentication',
+
+    ],
+
+    'SWAGGER_UI_SETTINGS': {
+        'deepLinking': True,
+        "displayOperationId": True,
+        "syntaxHighlight.active": True,
+        "syntaxHighlight.theme": "arta",
+        "defaultModelsExpandDepth": -1,
+        "displayRequestDuration": True,
+        "filter": True,
+        "requestSnippetsEnabled": True,
+    },
+
+    'COMPONENT_SPLIT_REQUEST': True,
+    'SORT_OPERATIONS': False,
+
+    'ENABLE_DJANGO_DEPLOY_CHECK': False,
+    'DISABLE_ERRORS_AND_WARNINGS': True,
+}
+
