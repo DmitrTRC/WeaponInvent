@@ -27,9 +27,17 @@ INSTALLED_APPS = [
 INSTALLED_APPS += [
     'rest_framework',
     'django_filters',
+    'corsheaders',
+]
+
+INSTALLED_APPS += [
+    'api',
+    'common',
+    'inventory',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -38,6 +46,11 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_HEADERS = ['*']
+CSRF_COOKIE_SECURE = False
 
 ROOT_URLCONF = 'config.urls'
 
@@ -122,6 +135,10 @@ USE_I18N = True
 
 USE_TZ = True
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+MEDIA_TEST_ROOT = os.path.join(BASE_DIR, 'media/test/')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
